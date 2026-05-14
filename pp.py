@@ -36,20 +36,25 @@ background = transform.scale(image.load("bg.jpeg"),(700,500)) #создать ф
 #переменные
 clock = time.Clock()
 FPS = 60
-finish = False
+finish = False #конец партии
 score_1 = 0 
 score_2 = 0
 font1 = font.SysFont('Arial', 36)
 num_fire = 0
-rel_time = False
-run = True
+rel_time = False #конец всего матча (match_over)
+run = True #физическое окно
 speed_x = 1
 speed_y = 1
+score1 = 0
+score2 = 0
+max_score = 3
+font1 = font.Font(None, 35)
+
 
 #спрайты
 pl1 = Player("line.png", 5, 15, 250, 17, 100)
 pl2 = Player("line.png", 5, 650, 250, 17, 100)
-ball = GameSprite("ball.png", 1, 350, 250, 25,25)
+ball = GameSprite("ball.png", 1, 350, 250, 40,40)
  
 
 while run == True:
@@ -65,10 +70,13 @@ while run == True:
         ball.reset()
         ball.rect.x += speed_x
         ball.rect.y += speed_y
+        score_text = font1.render(str(score1) + ' : ' + str(score2), True, (0,0,0))
+        window.blit(score_text, (310,20))
     if ball.rect.y > 450 or ball.rect.y < 0:
-        speed_y *= -1.05
+        speed_y *= -1.07
     if sprite.collide_rect(pl1,ball) or sprite.collide_rect(pl2, ball):
-        speed_x *= -1.05
+        speed_x *= -1.07
+    
 
     display.update()
     clock.tick(FPS)
