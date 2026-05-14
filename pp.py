@@ -14,19 +14,26 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image,(self.rect.x, self.rect.y))
 
 class Player(GameSprite):
-    def update(self):
+    def update_r(self):
         keys = key.get_pressed()
-        if keys[K_LEFT] and self.rect.x > 0:
-            self.rect.x -= self.speed
-        if keys[K_RIGHT] and self.rect.x < 600:
-            self.rect.x += self.speed
+        if keys[K_UP] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if keys[K_DOWN] and self.rect.y < 350:
+            self.rect.y += self.speed
+    def update_l(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if keys[K_s] and self.rect.y < 350:
+            self.rect.y += self.speed
 
 
 #окно игры и фон
 window = display.set_mode((700, 500))
 display.set_caption("Ping-pong")
-background = transform.scale(image.load("background.jpeg"),(700,500)) #создать фон картинку и адаптировать под размер окна
+background = transform.scale(image.load("bg.jpeg"),(700,500)) #создать фон картинку и адаптировать под размер окна
 
+#переменные
 clock = time.Clock()
 FPS = 60
 finish = False
@@ -36,24 +43,22 @@ font1 = font.SysFont('Arial', 36)
 num_fire = 0
 rel_time = False
 run = True
+
+#спрайты
+pl1 = Player("line.png", 5, 15, 250, 150, 150)
+pl2 = Player("line.png", 5, 550, 250, 150, 150)
  
 
 while run == True:
     for e in event.get():
         if e.type == QUIT:
             run = False       
-        elif e.type == KEYDOWN:
-            if e.key == K_SPACE:
-                if num_fire < 5 and rel_time == False:
-                    num_fire += 1
-                elif num_fire>=5 and rel_time == False:
-                    last_time = time.get_ticks()
-                    rel_time = True
-
-  
-
     if finish != True:
         window.blit(background,(0,0))
+        pl1.reset()
+        pl1.update_l()
+        pl2.reset()
+        pl2.update_r()
 
     display.update()
     clock.tick(FPS)
