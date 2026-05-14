@@ -43,10 +43,13 @@ font1 = font.SysFont('Arial', 36)
 num_fire = 0
 rel_time = False
 run = True
+speed_x = 1
+speed_y = 1
 
 #спрайты
-pl1 = Player("line.png", 5, 15, 250, 150, 150)
-pl2 = Player("line.png", 5, 550, 250, 150, 150)
+pl1 = Player("line.png", 5, 15, 250, 17, 100)
+pl2 = Player("line.png", 5, 650, 250, 17, 100)
+ball = GameSprite("ball.png", 1, 350, 250, 25,25)
  
 
 while run == True:
@@ -59,6 +62,13 @@ while run == True:
         pl1.update_l()
         pl2.reset()
         pl2.update_r()
+        ball.reset()
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+    if ball.rect.y > 450 or ball.rect.y < 0:
+        speed_y *= -1.05
+    if sprite.collide_rect(pl1,ball) or sprite.collide_rect(pl2, ball):
+        speed_x *= -1.05
 
     display.update()
     clock.tick(FPS)
