@@ -1,6 +1,7 @@
 from pygame import *
 from random import randint
 import random
+mixer.init()
 font.init()
 
 class GameSprite(sprite.Sprite):
@@ -50,6 +51,7 @@ score1 = 0
 score2 = 0
 max_score = 3
 font1 = font.Font(None, 35)
+kick = mixer.Sound('sound.mp3')
 
 
 #спрайты
@@ -77,13 +79,17 @@ while run == True:
         
         #гол игрока 2 (мяч ушел за левую границу)
         if ball.rect.x <= 0:
+            kick.play()
             score2 += 1
             finish = True
+            
 
         #гол игрока 1 (за правую границу)
         if ball.rect.x >= 660:
+            kick.play()
             score1 += 1
             finish = True
+
 
         #проверка победы в матче
         if score1 == max_score or score2 == max_score:
